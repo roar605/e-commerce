@@ -1,0 +1,24 @@
+# Ignore all files ending with .log
+*.log
+
+# Ignore the 'build' directory and its contents
+build/
+
+# Ignore the 'node_modules' directory and its contents (common in Node.js projects)
+node_modules/
+
+# Ignore specific files
+.env
+.DS_Store # macOS specific file
+
+# Ignore all files in the 'temp' directory, but not the directory itself if it's empty
+temp/*
+
+# Do not ignore a specific file within an otherwise ignored directory
+!build/important.txt
+
+# Ignore all files in any directory named 'target'
+**/target/
+
+# Ignore files based on a pattern in the root directory only
+/debug.log
