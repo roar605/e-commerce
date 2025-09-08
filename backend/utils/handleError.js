@@ -1,8 +1,8 @@
-class HandleError extends Error{
-    constructor(message,statusCode) {
+class HandleError extends Error {
+    constructor(message, statusCode) {
         super(message);
-        this.statusCode=statusCode;
-        Error.captureStackTrace(this,this.constructor)
+        this.statusCode = statusCode;
+        Error.captureStackTrace(this, this.constructor)
     }
 }
 
