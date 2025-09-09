@@ -44,11 +44,11 @@ const userSchema = new mongoose.Schema({
 
 //password hashing
 userSchema.pre("save", async function (next) {
-    this.password = await bcryptjs.hash(this.password, 10)
-
     if (!this.isModified("password")) {
-        return next
+        return next();
     }
+    this.password = await bcryptjs.hash(this.password, 10)
+    next();
 });
 
 //custom method for token generation
@@ -63,9 +63,12 @@ userSchema.methods.verifyPassword = async function (userEnteredPassword) {
     return await bcryptjs.compare(userEnteredPassword, this.password)
 }
 
-//custom method generating token
+//custom method for generating token
 userSchema.methods.generatePasswordResetToken=function(){
     const resetToken = crypto.randomBytes(20).toString('hex');
+    this.resetPasswordToken=crypto.createHash("sha256").update(resetToken).digest("hex");
+    this.resetPasswordExpire=Date.now()+30*60*1000
+    return resetToken;
 }
 
 export default mongoose.model("User", userSchema);
