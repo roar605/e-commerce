@@ -13,13 +13,25 @@ export const getProduct = createAsyncThunk('product/getProduct',async(_,{rejectW
     }
 })
 
+//get single product details
+export const getProductDetails = createAsyncThunk('product/getProductDetails',async(id,{rejectWithValue})=>{
+    try {
+        const link=`/api/v1/product/${id}`;
+        const {data}=await axios.get(link);
+        return data
+    } catch (error) {
+        return rejectWithValue(error.response?.data || 'An error occured')
+    }
+})
+
 const productSlice = createSlice({
     name:'product',
     initialState:{
         products:[],
         productCount:0,
         loading:false,
-        error:null
+        error:null,
+        product:null
     },
     reducers:{
         removeErrors:(state)=>{
