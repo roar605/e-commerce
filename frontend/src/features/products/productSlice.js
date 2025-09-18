@@ -1,12 +1,11 @@
 import {createSlice,createAsyncThunk} from "@reduxjs/toolkit"
 import axios from 'axios'
 
-export const getProduct = createAsyncThunk('product/getProduct',async(_,{rejectWithValue})=>{
+export const getProduct = createAsyncThunk('product/getProduct',async({keyword,page=1},{rejectWithValue})=>{
     try {
-        const link='/api/v1/products'
+        const link=keyword?`/api/v1/products?keyword=${encodeURIComponent(keyword)}&page=${page}`
+        :`/api/v1/products/page=${page}`
         const {data} = await axios.get(link)
-        console.log(data);
-        
         return data
     } catch (error) {
         return rejectWithValue(error.response?.data || 'An error occured')
@@ -18,7 +17,8 @@ export const getProductDetails = createAsyncThunk('product/getProductDetails',as
     try {
         const link=`/api/v1/product/${id}`;
         const {data}=await axios.get(link);
-        return data
+        console.log(data);
+        return data;
     } catch (error) {
         return rejectWithValue(error.response?.data || 'An error occured')
     }
@@ -31,7 +31,9 @@ const productSlice = createSlice({
         productCount:0,
         loading:false,
         error:null,
-        product:null
+        product:null,
+        resultsPerPage:4,
+        totalPages:0
     },
     reducers:{
         removeErrors:(state)=>{
@@ -48,8 +50,27 @@ const productSlice = createSlice({
             state.error=null;
             state.products=action.payload.products;
             state.productCount=action.payload.productCount;
+            state.resultsPerPage=action.payload.resultsPerPage;
+            state.totalPages=action.payload.totalPages
         })
         .addCase(getProduct.rejected,(state,action)=>{
+            state.loading=false;
+            state.error=action.payload || 'Something went wrong'
+            state.products=[]
+        })
+
+        builder.addCase(getProductDetails.pending,(state)=>{
+            state.loading=true;
+            state.error=null;
+        })
+        .addCase(getProductDetails.fulfilled,(state,action)=>{
+            console.log("Fullfilled action",action.payload);
+            
+            state.loading=false;
+            state.error=null;
+            state.product=action.payload.product;
+        })
+        .addCase(getProductDetails.rejected,(state,action)=>{
             state.loading=false;
             state.error=action.payload || 'Something went wrong'
         })
