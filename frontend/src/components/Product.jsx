@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../componentStyles/Product.css";
+import "../Styles/componentStyles/Product.css";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 

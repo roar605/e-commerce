@@ -1,5 +1,5 @@
 import React from "react";
-import "../componentStyles/Footer.css";
+import "../Styles/componentStyles/Footer.css";
 import {
   Phone,
   Mail,

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Footer from "../components/Footer";
-import "../pageStyles/Home.css";
+import "../Styles/pageStyles/Home.css";
 import Navbar from "../components/Navbar";
 import ImageSlider from "../components/ImageSlider";
 import Product from "../components/Product";

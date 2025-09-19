@@ -2,13 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import PageTitle from "../components/PageTitle";
-import "../pageStyles/Products.css";
+import "../Styles/pageStyles/Products.css";
 import Product from "../components/Product";
 import { getProduct, removeErrors } from "../features/products/productSlice";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
-import "../componentStyles/Product.css";
+import "../Styles/componentStyles/Product.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import NoProducts from "../components/NoProducts";
 import Pagination from "../components/Pagination";
@@ -20,13 +20,15 @@ function Products() {
   const searchParams = new URLSearchParams(location.search);
   const keyword = searchParams.get("keyword");
   const pageFromURL = parseInt(searchParams.get("page"), 10) || 1;
+  const category = searchParams.get("category");
+
   const [currentPage, setCurrentPage] = useState(pageFromURL);
   const navigate = useNavigate();
-
+  const categories = ["mobile", "laptop", "cosmetics", "shirt", "television"];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProduct({ keyword, page: currentPage }));
-  }, [dispatch, keyword, currentPage]);
+    dispatch(getProduct({ keyword, page: currentPage, category }));
+  }, [dispatch, keyword, currentPage, category]);
 
   useEffect(() => {
     if (error) {
@@ -46,6 +48,14 @@ function Products() {
       navigate(`?${newSearchParams.toString()}`);
     }
   };
+
+  const handleCategoryChange = (category) => {
+    const newSearchParams = new URLSearchParams(location.search);
+    newSearchParams.set("category", category);
+    newSearchParams.delete("page");
+    navigate(`?${newSearchParams.toString()}`);
+  };
+
   return (
     <>
       {loading ? (
@@ -57,6 +67,16 @@ function Products() {
           <div className="products-layout">
             <div className="filter-section">
               <h3 className="filter-heading">CATEGORIES</h3>
+              {/* render categories */}
+              <ul>
+                {categories.map((category) => {
+                  return (
+                    <li key={category} onClick={() => handleCategoryChange}>
+                      {category}
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
 
             <div className="products-section">

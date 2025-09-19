@@ -1,5 +1,5 @@
 import React from "react";
-import "../componentStyles/NoProducts.css";
+import "../Styles/componentStyles/NoProducts.css";
 
 function NoProducts({ keyword }) {
   return (
