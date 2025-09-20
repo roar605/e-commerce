@@ -1,11 +1,18 @@
 import app from "./app.js";
 import dotenv from "dotenv";
+import {v2 as cloudinary} from "cloudinary";
 import { connectMongoDatabase } from "./config/db.js";
 //initial configurations are done
 dotenv.config()
 const port = process.env.PORT || 3000
 
-connectMongoDatabase()
+connectMongoDatabase();
+
+cloudinary.config({
+    cloud_name:process.env.CLOUDINARY_NAME,
+    api_key:process.env.API_KEY,
+    api_secret:process.env.API_SECRET
+})
 
 //uncaught exception errors handled
 process.on('uncaughtException', (err) => {

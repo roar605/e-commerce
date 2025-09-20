@@ -14,7 +14,7 @@ function Registe() {
   const [user, setUser] = useState({
     name: "",
     email: "",
-    Password: "",
+    password: "",
   });
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState(
@@ -127,7 +127,7 @@ function Registe() {
             <img src={avatarPreview} alt="Avatar Preview" className="avatar" />
           </div>
 
-          <button className="authBtn">Sign Up</button>
+          <button className="authBtn">{loading?'Signing Up...':'Sign Up'}</button>
           <p className="form-links">
             Already have an account? <Link to="/login">Sign in here</Link>
           </p>

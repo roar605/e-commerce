@@ -12,7 +12,7 @@ export const register = createAsyncThunk(
         },
       };
       const { data } = await axios.post("/api/v1/register", userData, config);
-      console.log("registeration data");
+      console.log("registeration data", data);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -41,11 +41,20 @@ export const login = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data || "Registeration failed. Try again later"
+        error.response?.data || "Login failed. Try again later"
       );
     }
   }
 );
+
+export const loadUser = createAsyncThunk('user/loadUser', async (_, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.get('api/v1/profile');
+    return data
+  } catch (error) {
+    return rejectWithValue(error.response?.data || 'Failed to load user profile' || )
+  }
+})
 
 const userSlice = createSlice({
   name: "user",
@@ -98,6 +107,25 @@ const userSlice = createSlice({
           (state.isAuthenticated = Boolean(action.payload?.user));
       })
       .addCase(login.rejected, (state, action) => {
+        (state.loading = false),
+          (state.error =
+            action.payload?.message || "Registeration failed. Try again later"),
+          (state.user = null),
+          (state.isAuthenticated = false);
+      });
+
+    //loading case
+    builder
+      .addCase(loadUser.pending, state => {
+        (state.loading = true), (state.error = null);
+      })
+      .addCase(loadUser.fulfilled, (state, action) => {
+        (state.loading = false),
+          (state.error = null),
+          (state.user = action.payload?.user || null),
+          (state.isAuthenticated = Boolean(action.payload?.user));
+      })
+      .addCase(loadUser.rejected, (state, action) => {
         (state.loading = false),
           (state.error =
             action.payload?.message || "Registeration failed. Try again later"),
