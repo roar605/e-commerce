@@ -12,13 +12,14 @@ import { toast } from "react-toastify";
 
 function Home() {
   const { loading, error, products, productCount } = useSelector(
-    (state) => state.product
+    state => state.product
   );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProduct({ keyword: "" }));
   }, [dispatch]);
 
+  //for checking the error
   useEffect(() => {
     if (error) {
       toast.error(error.message, { position: "top-center", autoClose: 3000 });
