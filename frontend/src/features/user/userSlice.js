@@ -12,7 +12,7 @@ export const register = createAsyncThunk(
         },
       };
       const { data } = await axios.post("/api/v1/register", userData, config);
-      console.log("registeration data", data);
+      // console.log("registeration data", data);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -37,7 +37,7 @@ export const login = createAsyncThunk(
         { email, password },
         config
       );
-      console.log("Login data", data);
+      // console.log("Login data", data);
       return data;
     } catch (error) {
       return rejectWithValue(
@@ -52,9 +52,21 @@ export const loadUser = createAsyncThunk('user/loadUser', async (_, { rejectWith
     const { data } = await axios.get('api/v1/profile');
     return data
   } catch (error) {
-    return rejectWithValue(error.response?.data || 'Failed to load user profile' || )
+    return rejectWithValue(error.response?.data || 'Failed to load user profile')
   }
 })
+
+//logout user
+export const logout = createAsyncThunk('user/logout', async (_, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.post('api/v1/logout', { withCredentials: true });
+    return data
+  } catch (error) {
+    return rejectWithValue(error.response?.data || 'Logout failed')
+  }
+})
+
+
 
 const userSlice = createSlice({
   name: "user",
@@ -132,6 +144,24 @@ const userSlice = createSlice({
           (state.user = null),
           (state.isAuthenticated = false);
       });
+
+    //logout user
+    builder
+      .addCase(logout.pending, state => {
+        (state.loading = true), (state.error = null);
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        (state.loading = false),
+          (state.error = null),
+          (state.user = null),
+          (state.isAuthenticated = false);
+      })
+      .addCase(logout.rejected, (state, action) => {
+        (state.loading = false),
+          (state.error =
+            action.payload?.message || "Registeration failed. Try again later")
+      });
+
   },
 });
 
