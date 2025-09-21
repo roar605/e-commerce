@@ -64,11 +64,12 @@ function Login() {
             />
           </div>
           <button className="authBtn">Sign In</button>
+
           <p className="form-links">
-            Forgot your password? <Link to="/password/forgot">Reset here</Link>
+            Don't have an account? <Link to="/register">Register here</Link>
           </p>
           <p className="form-links">
-            Don't have an account. <Link to="/register">Register here</Link>
+            Forgot your password? <Link to="/password/forgot">Reset password</Link>
           </p>
         </form>
       </div>

@@ -83,7 +83,7 @@ function Navbar() {
           </div>
 
           {!isAuthenticated && (
-            <Link to="/register" className="register-link">
+            <Link to="/login" className="register-link">
               <PersonAddIcon className="icon" />
             </Link>
           )}
