@@ -75,7 +75,7 @@ export const updateProfile = createAsyncThunk('user/updateProfile', async (userD
         "Content-Type": "application/json",
       },
     }
-    const { data } = await axios.put('api/v1/profile/update', userData, config);
+    const { data } = await axios.put('/api/v1/profile/update', userData, config);
     return data
   } catch (error) {
     console.log(error);
