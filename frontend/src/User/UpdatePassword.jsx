@@ -11,7 +11,7 @@ import Loader from '../components/Loader';
 
 function UpdatePassword() {
     const { success, loading, error } = useSelector(state => state.user);
-    comst dispatch = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');

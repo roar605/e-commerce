@@ -117,6 +117,21 @@ export const forgotPassword = createAsyncThunk('user/forgotPassword', async (ema
   }
 })
 
+//reset password
+export const resetPassword = createAsyncThunk('user/resetPassword', async ({ token, userData }, { rejectWithValue }) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+    const { data } = await axios.post(`/api/v1/reset/${token}`, userData, config);
+    return data
+  } catch (error) {
+    console.log(error);
+    return rejectWithValue(error.response?.data || "Email sent failed")
+  }
+})
 
 
 const userSlice = createSlice({
@@ -257,11 +272,30 @@ const userSlice = createSlice({
       .addCase(forgotPassword.fulfilled, (state, action) => {
         (state.loading = false),
           (state.error = null),
-          (state.success = action.payload?.success)
-            (state.message = action.payload?.message)
+          (state.success = action.payload?.success),
+          (state.message = action.payload?.message)
 
       })
       .addCase(forgotPassword.rejected, (state, action) => {
+        (state.loading = false),
+          (state.error =
+            action.payload?.message || "Email sent failed")
+      });
+
+    //reset password
+    builder
+      .addCase(resetPassword.pending, state => {
+        (state.loading = true), (state.error = null);
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        (state.loading = false),
+          (state.error = null),
+          (state.success = action.payload?.success),
+          (state.user = null),
+          (state.isAuthenticated = false)
+
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
         (state.loading = false),
           (state.error =
             action.payload?.message || "Email sent failed")
