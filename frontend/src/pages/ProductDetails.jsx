@@ -12,6 +12,7 @@ import {
 } from "../features/products/productSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import { addItemsToCart, removeMessage } from "../features/cart/cartSlice";
 
 function ProductDetails() {
   const [userRating, setUserRating] = useState(0);
@@ -20,6 +21,7 @@ function ProductDetails() {
     setUserRating(newRating);
   };
   const { product, loading, error } = useSelector((state) => state.product);
+  const { loading: cartLoading, error: cartError, success, message, cartItems } = useSelector((state) => state.cart);
   const decreaseQuantity = () => {
     if (quantity <= 1) {
       toast.error('Quantity cannot be less than 1', { position: 'top-center', autoClose: 3000 })
@@ -52,7 +54,19 @@ function ProductDetails() {
       toast.error(error.message, { position: "top-center", autoClose: 3000 });
       dispatch(removeErrors());
     }
-  }, [dispatch, error]);
+    if (cartError) {
+      toast.error(cartError.message, { position: "top-center", autoClose: 3000 });
+    }
+  }, [dispatch, error, cartError]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success(message, { position: "top-center", autoClose: 3000 });
+      dispatch(removeMessage());
+    }
+
+  }, [dispatch, success, message]);
+
   if (loading) {
     return (
       <>
@@ -70,6 +84,10 @@ function ProductDetails() {
         <Footer />
       </>
     );
+  }
+
+  const addToCart = () => {
+    dispatch(addItemsToCart({ id, quantity }))
   }
 
   return (
@@ -121,7 +139,8 @@ function ProductDetails() {
                   </span>
                 </div>
 
-                <button className="add-to-cart-btn">Add to cart</button>
+                <button className="add-to-cart-btn" disabled={cartLoading}
+                  onClick={addToCart}>{cartLoading ? 'Adding' : 'Add to cart'}</button>
               </>
             )}
             <form>
