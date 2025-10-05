@@ -22,6 +22,7 @@ function ProductDetails() {
   };
   const { product, loading, error } = useSelector((state) => state.product);
   const { loading: cartLoading, error: cartError, success, message, cartItems } = useSelector((state) => state.cart);
+
   const decreaseQuantity = () => {
     if (quantity <= 1) {
       toast.error('Quantity cannot be less than 1', { position: 'top-center', autoClose: 3000 })
