@@ -6,7 +6,7 @@ import axios from "axios";
 export const addItemsToCart = createAsyncThunk("cart/addItemsToCart", async ({ id, quantity }, { rejectWithValue }) => {
     try {
         const { data } = await axios.get(`/api/v1/product/${id}`);
-        console.log("Data - ", data);
+        // console.log("Data - ", data);
 
         return {
             product: data.product._id,

@@ -12,7 +12,7 @@ export const getProduct = createAsyncThunk('product/getProduct', async ({ keywor
         }
         // const link=keyword?`/api/v1/products?keyword=${encodeURIComponent(keyword)}&page=${page}`
         // :`/api/v1/products?page=${page}`
-        console.log("product link -> ", link);
+        // console.log("product link -> ", link);
 
         const { data } = await axios.get(link)
         return data
@@ -26,7 +26,7 @@ export const getProductDetails = createAsyncThunk('product/getProductDetails', a
     try {
         const link = `/api/v1/product/${id}`;
         const { data } = await axios.get(link);
-        console.log(data);
+        // console.log(data);
         return data;
     } catch (error) {
         return rejectWithValue(error.response?.data || 'An error occured')
@@ -73,8 +73,7 @@ const productSlice = createSlice({
             state.error = null;
         })
             .addCase(getProductDetails.fulfilled, (state, action) => {
-                console.log("Fullfilled action", action.payload);
-
+                // console.log("Fullfilled action", action.payload);
                 state.loading = false;
                 state.error = null;
                 state.product = action.payload.product;
