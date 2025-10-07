@@ -29,7 +29,7 @@ function ProductDetails() {
       dispatch(removeErrors())
       return;
     }
-    setQuantity(qty => qty + 1)
+    setQuantity(qty => qty - 1)
   }
   const increaseQuantity = () => {
     if (product.stock <= quantity) {
@@ -49,7 +49,7 @@ function ProductDetails() {
       dispatch(removeErrors());
     };
   }, [dispatch, id]);
-
+  // error and success control
   useEffect(() => {
     if (error) {
       toast.error(error.message, { position: "top-center", autoClose: 3000 });
