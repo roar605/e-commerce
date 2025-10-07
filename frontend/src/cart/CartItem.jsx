@@ -4,11 +4,9 @@ import { addItemsToCart, removeErrors, removeItemFromCart, removeMessage } from 
 import { useDispatch, useSelector } from 'react-redux';
 
 function CartItem({ item }) {
-
     const { success, loading, error, message, cartItems } = useSelector(state => state.cart);
     const [quantity, setQuantity] = useState(item.quantity);
     const dispatch = useDispatch();
-
     const decreaseQuantity = () => {
         if (quantity <= 1) {
             toast.error('Quantity cannot be less than 1', { position: 'top-center', autoClose: 3000 })
