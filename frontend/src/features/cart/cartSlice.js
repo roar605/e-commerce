@@ -48,7 +48,8 @@ const cartSlice = createSlice({
             state.removingId = null
         },
         saveShippingInfo: (state, action) => {
-
+            state.shippingInfo = action.payload
+            localStorage.setItem('shippingInfo', JSON.stringify(state.shippingInfo))
         }
     },
     extraReducers: (builder) => {
@@ -78,5 +79,5 @@ const cartSlice = createSlice({
             })
     }
 })
-export const { removeErrors, removeMessage, removeItemFromCart } = cartSlice.actions;
+export const { removeErrors, removeMessage, removeItemFromCart, saveShippingInfo } = cartSlice.actions;
 export default cartSlice.reducer;
