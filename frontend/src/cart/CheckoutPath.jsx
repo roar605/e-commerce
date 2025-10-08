@@ -1,15 +1,33 @@
-import { LocalShipping } from '@mui/icons-material'
+import { AccountBalance, LibraryAddCheck, LocalShipping } from '@mui/icons-material'
 import '../Styles/CartStyles/CheckoutPath.css'
 
 
-function CheckoutPath() {
-
+function CheckoutPath({ activePath }) {
+    const path = [
+        {
+            label: 'Shipping Details',
+            icon: <LocalShipping />
+        },
+        {
+            label: 'Confirm Order',
+            icon: <LibraryAddCheck />
+        },
+        {
+            label: 'Payment',
+            icon: <AccountBalance />
+        }
+    ]
     return (
         <div className="checkoutPath">
-            <div className="checkoutPath-step">
-                <p className="checkoutPath-icon"><LocalShipping /></p>
-                <p className="checkoutPath-label">Shipping Details</p>
-            </div>
+            {path.map((item, index) => (
+                <div className="checkoutPath-step" key={index}
+                    active={activePath === index ? 'true' : 'false'}
+                    completed={activePath >= index ? 'true' : 'false'}
+                >
+                    <p className="checkoutPath-icon">{item.icon}</p>
+                    <p className="checkoutPath-label">{item.label}</p>
+                </div>
+            ))}
         </div>
     )
 }

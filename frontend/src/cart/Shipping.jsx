@@ -9,7 +9,7 @@ function Shipping() {
         <>
             <PageTitle title='Shipping Info' />
             <Navbar />
-            <CheckoutPath />
+            <CheckoutPath activePath={0} />
             <div className="shipping-form-container">
                 <h1 className="shipping-form-header">Shipping Details</h1>
                 <form className="shipping-form">
