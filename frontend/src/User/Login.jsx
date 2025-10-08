@@ -1,18 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../Styles/UserStyles/Form.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login, removeErrors } from "../features/user/userSlice";
 import { toast } from "react-toastify";
 function Login() {
+  const location = useLocation();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const { error, loading, success, isAuthenticated } = useSelector(
-    state => state.user
-  );
+  const { error, loading, success, isAuthenticated } = useSelector(state => state.user);
+  const redirect = new URLSearchParams(location.search).get("redirect") || '/'
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const loginSubmit = e => {
     e.preventDefault();
     dispatch(
@@ -32,7 +31,7 @@ function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      navigate(redirect);
     }
   }, [isAuthenticated]);
 

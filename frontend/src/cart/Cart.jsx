@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import PageTitle from '../components/PageTitle'
 import '../Styles/CartStyles/Cart.css'
 import CartItem from './CartItem'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Cart() {
     const { cartItems } = useSelector(state => state.cart)
@@ -13,7 +13,10 @@ function Cart() {
     const shipping = subTotal > 500 ? 0 : 50
     const total = subTotal + tax + shipping
     console.log(cartItems);
-
+    const navigate = useNavigate();
+    const checkoutHandler = () => {
+        navigate(`/login?redirect=/shipping`)
+    }
 
     return (
         <>
@@ -63,7 +66,7 @@ function Cart() {
                             <p className="total-label">Total : </p>
                             <p className="total-value">{(total).toFixed(2)}/-</p>
                         </div>
-                        <button className="checkout-btn">Proceed to Checkout</button>
+                        <button className="checkout-btn" onClick={checkoutHandler}>Proceed to Checkout</button>
                     </div>
                 </div>
 
