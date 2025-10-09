@@ -15,7 +15,7 @@ function OrderConfirm() {
     const shippingCharges = subTotal > 500 ? 0 : 50
     const total = subTotal + tax + shippingCharges;
 
-    const proceesToPayment = () => {
+    const proceedToPayment = () => {
         const data = {
             subTotal, tax, shippingCharges, total
         }
@@ -63,7 +63,7 @@ function OrderConfirm() {
                         <tbody>
                             {cartItems.map((item) => (
                                 <tr>
-                                    <td><img className='product-image' src={item.image} alt={item.name} /></td>
+                                    <td><img className='order-product-image' src={item.image} alt={item.name} /></td>
                                     <td>{item.name}</td>
                                     <td>{item.price}</td>
                                     <td>{item.quantity}</td>
@@ -94,7 +94,7 @@ function OrderConfirm() {
                     </table>
                 </div>
 
-                <button className="procees-button" onClick={proceesToPayment}>Procees to Payment</button>
+                <button className="proceed-button" onClick={proceedToPayment}>Proceed to Payment</button>
             </div>
             <Footer />
         </>
