@@ -4,10 +4,25 @@ import Navbar from '../components/Navbar'
 import PageTitle from '../components/PageTitle'
 import '../Styles/CartStyles/OrderConfirm.css'
 import CheckoutPath from './CheckoutPath'
+import { useNavigate } from 'react-router-dom'
 
 function OrderConfirm() {
     const { shippingInfo, cartItems } = useSelector(state => state.cart);
     const { user } = useSelector(state => state.user);
+    const navigate = useNavigate();
+    const subTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    const tax = subTotal * 0.18
+    const shippingCharges = subTotal > 500 ? 0 : 50
+    const total = subTotal + tax + shippingCharges;
+
+    const proceesToPayment = () => {
+        const data = {
+            subTotal, tax, shippingCharges, total
+        }
+        sessionStorage.setItem('orderItem', JSON.stringify(data))
+        navigate('/process/payment')
+    }
+
     return (
         <>
             <PageTitle title="Order Confirm" />
@@ -46,12 +61,40 @@ function OrderConfirm() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {cartItems.map((item) => (
+                                <tr>
+                                    <td><img className='product-image' src={item.image} alt={item.name} /></td>
+                                    <td>{item.name}</td>
+                                    <td>{item.price}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{item.quantity * item.price}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
 
+                    <table className="confirm-table">
+                        <caption>Order Summary</caption>
+                        <thead>
+                            <tr>
+                                <th>Subtotal</th>
+                                <th>Shipping Charges</th>
+                                <th>Tax</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{subTotal}/-</td>
+                                <td>{shippingCharges}/-</td>
+                                <td>{tax}/-</td>
+                                <td>{total}/-</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+
+                <button className="procees-button" onClick={proceesToPayment}>Procees to Payment</button>
             </div>
             <Footer />
         </>

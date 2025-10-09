@@ -10,8 +10,8 @@ function Cart() {
     const { cartItems } = useSelector(state => state.cart)
     const subTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
     const tax = subTotal * 0.18
-    const shipping = subTotal > 500 ? 0 : 50
-    const total = subTotal + tax + shipping
+    const shippingCharges = subTotal > 500 ? 0 : 50
+    const total = subTotal + tax + shippingCharges
     console.log(cartItems);
     const navigate = useNavigate();
     const checkoutHandler = () => {
@@ -59,7 +59,7 @@ function Cart() {
 
                         <div className="summary-item">
                             <p className="summary-label">Shipping : </p>
-                            <p className="summary-value">{shipping}/-</p>
+                            <p className="summary-value">{shippingCharges}/-</p>
                         </div>
 
                         <div className="summary-item">
