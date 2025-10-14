@@ -137,11 +137,11 @@ export const resetPassword = createAsyncThunk('user/resetPassword', async ({ tok
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: null,
+    user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
     loading: false,
     error: null,
     success: false,
-    isAuthenticated: false,
+    isAuthenticated: localStorage.getItem('isAuthenticated') === 'true',
     message: null
   },
   reducers: {
@@ -164,6 +164,10 @@ const userSlice = createSlice({
           (state.success = action.payload.success),
           (state.user = action.payload?.user || null),
           (state.isAuthenticated = Boolean(action.payload?.user));
+
+        //storing in Local Storage
+        localStorage.setItem('user', JSON.stringify(state.user));
+        localStorage.setItem('isAuthenticated', JSON.stringify(state.isAuthenticated));
       })
       .addCase(register.rejected, (state, action) => {
         (state.loading = false),
@@ -184,6 +188,9 @@ const userSlice = createSlice({
           (state.success = action.payload.success),
           (state.user = action.payload?.user || null),
           (state.isAuthenticated = Boolean(action.payload?.user));
+        //storing in Local Storage
+        localStorage.setItem('user', JSON.stringify(state.user));
+        localStorage.setItem('isAuthenticated', JSON.stringify(state.isAuthenticated));
       })
       .addCase(login.rejected, (state, action) => {
         (state.loading = false),
@@ -203,11 +210,14 @@ const userSlice = createSlice({
           (state.error = null),
           (state.user = action.payload?.user || null),
           (state.isAuthenticated = Boolean(action.payload?.user));
+        //storing in Local Storage
+        localStorage.setItem('user', JSON.stringify(state.user));
+        localStorage.setItem('isAuthenticated', JSON.stringify(state.isAuthenticated));
       })
       .addCase(loadUser.rejected, (state, action) => {
         (state.loading = false),
           (state.error =
-            action.payload?.message || "Registeration failed. Try again later"),
+            action.payload?.message || "Failed to load user. Try again later"),
           (state.user = null),
           (state.isAuthenticated = false);
       });
