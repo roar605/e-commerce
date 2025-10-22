@@ -220,6 +220,12 @@ const userSlice = createSlice({
             action.payload?.message || "Failed to load user. Try again later"),
           (state.user = null),
           (state.isAuthenticated = false);
+        if (action.payload?.statusCode === 401) {
+          state.user = null;
+          state.isAuthenticated = false;
+          localStorage.removeItem('user')
+          localStorage.removeItem('isAuthenticated')
+        }
       });
 
     //logout user
