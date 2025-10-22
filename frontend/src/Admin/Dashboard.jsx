@@ -1,4 +1,4 @@
-import { AddBox, Dashboard as DashboardIcon, Inventory, People, ShoppingCart, Star } from "@mui/icons-material"
+import { AddBox, AttachMoney, CheckCircle, Dashboard as DashboardIcon, Instagram, Inventory, LinkedIn, People, ShoppingCart, Star, YouTube } from "@mui/icons-material"
 import '../Styles/AdminStyles/Dashboard.css'
 import PageTitle from "../components/PageTitle";
 import Footer from "../components/Footer";
@@ -60,6 +60,60 @@ function Dashboard() {
                         <div className="stat-box">
                             <Inventory className="icon" />
                             <h3>Total Products</h3>
+                            <p>4</p>
+                        </div>
+
+                        <div className="stat-box">
+                            <ShoppingCart className="icon" />
+                            <h3>Total Orders</h3>
+                            <p>6</p>
+                        </div>
+
+                        <div className="stat-box">
+                            <Star className="icon" />
+                            <h3>Total Reviews</h3>
+                            <p>13</p>
+                        </div>
+
+                        <div className="stat-box">
+                            <AttachMoney className="icon" />
+                            <h3>Total Revenue</h3>
+                            <p>2349.00/-</p>
+                        </div>
+
+                        <div className="stat-box">
+                            <Error className="icon" />
+                            <h3>Out Of Stock</h3>
+                            <p>2</p>
+                        </div>
+
+                        <div className="stat-box">
+                            <CheckCircle className="icon" />
+                            <h3>In Stock</h3>
+                            <p>4</p>
+                        </div>
+                    </div>
+
+                    <div className="social-stats">
+                        <div className="social-box instagram">
+                            <Instagram />
+                            <h3>Instagram</h3>
+                            <p>123k followers</p>
+                            <p>13 posts</p>
+                        </div>
+
+                        <div className="social-box linkedIn">
+                            <LinkedIn />
+                            <h3>LinkedIn</h3>
+                            <p>133 connections</p>
+                            <p>5 posts</p>
+                        </div>
+
+                        <div className="social-box youtube">
+                            <YouTube />
+                            <h3>Instagram</h3>
+                            <p>36k subscribers</p>
+                            <p>46 videos</p>
                         </div>
                     </div>
                 </div>
