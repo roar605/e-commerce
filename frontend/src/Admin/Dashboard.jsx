@@ -1,4 +1,4 @@
-import { AddBox, AttachMoney, CheckCircle, Dashboard as DashboardIcon, Instagram, Inventory, LinkedIn, People, ShoppingCart, Star, YouTube } from "@mui/icons-material"
+import { AddBox, AttachMoney, CheckCircle, Dashboard as DashboardIcon, Error, Instagram, Inventory, LinkedIn, People, ShoppingCart, Star, YouTube } from "@mui/icons-material"
 import '../Styles/AdminStyles/Dashboard.css'
 import PageTitle from "../components/PageTitle";
 import Footer from "../components/Footer";
@@ -10,6 +10,7 @@ function Dashboard() {
         <>
             <Navbar />
             <PageTitle title="Admin Dashboard" />
+
             <div className="dashboard-container">
                 <div className="sidebar">
                     <div className="logo">
@@ -82,7 +83,7 @@ function Dashboard() {
                         </div>
 
                         <div className="stat-box">
-                            <Error className="icon" />
+                            <Error />
                             <h3>Out Of Stock</h3>
                             <p>2</p>
                         </div>

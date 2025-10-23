@@ -10,7 +10,7 @@ import { fetchAdminProducts, removeErrors } from '../features/admin/adminSlice'
 
 
 function productsList() {
-    const { products, loading, error } = useSelector(state => state.admin);
+    const { products, loading, error } = useSelector((state) => state.admin);
     console.log(products);
     const dispatch = useDispatch();
     useEffect(() => {
