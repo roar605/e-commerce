@@ -24,7 +24,7 @@ function Dashboard() {
                                 <Inventory className="nav-icons" />
                                 All Products
                             </Link>
-                            <Link to="/admin/products/create">
+                            <Link to="/admin/product/create">
                                 <AddBox className="nav-icons" />
                                 Create Products
                             </Link>
