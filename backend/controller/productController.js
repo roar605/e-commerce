@@ -2,10 +2,28 @@ import Product from "../models/productModel.js"
 import HandleError from "../utils/handleError.js";
 import handleAsyncError from "../middleware/handleAsyncError.js";
 import APIFunctionality from "../utils/apiFunctionality.js";
+import { v2 as cloudinary } from 'cloudinary';
 
 //creating products
 export const createProducts = handleAsyncError(async (req, res, next) => {
-    req.body.user=req.user.id;
+    let image = [];
+    if (typeof req.body.image === 'string') {
+        image.push(req.body.image)
+    } else {
+        image = req.body.image
+    }
+    const imageLinks = [];
+    for (let i = 0; i < image.length; i++) {
+        const result = await cloudinary.uploader.upload(image[i], {
+            folder: 'products'
+        })
+        imageLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url
+        })
+    }
+    req.body.image = imageLinks
+    req.body.user = req.user.id;
     const product = await Product.create(req.body)
     res.status(201).json({
         success: true,
@@ -87,84 +105,84 @@ export const getSingleProduct = handleAsyncError(async (req, res, next) => {
 })
 
 //creating and updating review
-export const reviewForProduct = handleAsyncError(async(req,res,next)=>{
-    const {rating,comment,productId}=req.body;
-    const review={
-        user:req.user._id,
-        name:req.user.name,
-        rating:Number(rating),
+export const reviewForProduct = handleAsyncError(async (req, res, next) => {
+    const { rating, comment, productId } = req.body;
+    const review = {
+        user: req.user._id,
+        name: req.user.name,
+        rating: Number(rating),
         comment
     }
     const product = await Product.findById(productId);
-    const reviewExists=product.reviews.find(review=>review.user.toString()===req.user.id.toString());
-    if(reviewExists){
-        product.reviews.forEach(review=>{
-            if(review.user.toString()===req.user.id.toString()){
-                review.rating=rating,
-                review.comment=comment 
+    const reviewExists = product.reviews.find(review => review.user.toString() === req.user.id.toString());
+    if (reviewExists) {
+        product.reviews.forEach(review => {
+            if (review.user.toString() === req.user.id.toString()) {
+                review.rating = rating,
+                    review.comment = comment
             }
         })
-    }else{
+    } else {
         product.reviews.push(review);
-        product.numOfReviews=product.reviews.length
+        product.numOfReviews = product.reviews.length
     }
-    let averageRating=0;
-    product.reviews.forEach(review=>{
-        averageRating+=review.rating;
+    let averageRating = 0;
+    product.reviews.forEach(review => {
+        averageRating += review.rating;
 
     })
-    product.ratings=product.reviews.length>0? averageRating/product.reviews.length:0
+    product.ratings = product.reviews.length > 0 ? averageRating / product.reviews.length : 0
 
-    await product.save({validateBeforeSave:false});
+    await product.save({ validateBeforeSave: false });
     res.status(200).json({
-        success:true,
+        success: true,
         product
     })
 })
 
 //getting reviews
-export const getProductReviews = handleAsyncError(async(req,res,next)=>{
+export const getProductReviews = handleAsyncError(async (req, res, next) => {
     const product = await Product.findById(req.query.id);
-    if(!product){
+    if (!product) {
         return next(new HandleError("Product Not Found", 404))
     }
     res.status(200).json({
-        success:true,
-        reviews:product.reviews
+        success: true,
+        reviews: product.reviews
     })
 })
 
 //deleting reviews
-export const deleteProductReviews = handleAsyncError(async(req,res,next)=>{
+export const deleteProductReviews = handleAsyncError(async (req, res, next) => {
     const product = await Product.findById(req.query.productId);
-    if(!product){
+    if (!product) {
         return next(new HandleError("Product Not Found", 404))
     }
-    const reviews=product.reviews.filter(review=>review._id.toString() !== req.query.id.toString())
-    let averageRating=0;
-    product.reviews.forEach(review=>{
-        averageRating+=review.rating;
+    const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString())
+    let averageRating = 0;
+    product.reviews.forEach(review => {
+        averageRating += review.rating;
 
     })
-    const ratings=reviews.length>0? averageRating/reviews.length:0
-    const numOfReviews=reviews.length;
-    await Product.findOneAndUpdate(req.query.productId,{
-        reviews,ratings,numOfReviews
-    },{
-        new:true,
-        runValidators:true
+    const ratings = reviews.length > 0 ? averageRating / reviews.length : 0
+    const numOfReviews = reviews.length;
+    await Product.findOneAndUpdate(req.query.productId, {
+        reviews, ratings, numOfReviews
+    }, {
+        new: true,
+        runValidators: true
     })
     res.status(200).json({
-        success:true,
-        message:"Review deleted successfully"
+        success: true,
+        message: "Review deleted successfully"
     })
 })
 
 //admin getting all products
-export const getAdminProducts = handleAsyncError(async(req,res,next)=>{
+export const getAdminProducts = handleAsyncError(async (req, res, next) => {
     const products = await Product.find();
     res.status(200).json({
-        success:true,
+        success: true,
         products
     })
 })
