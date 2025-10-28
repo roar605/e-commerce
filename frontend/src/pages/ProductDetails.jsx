@@ -14,10 +14,12 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import { addItemsToCart, removeMessage } from "../features/cart/cartSlice";
 
+const imgLoading = "/images/images.png"
+
 function ProductDetails() {
   const [userRating, setUserRating] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState('')
+  const [selectedImage, setSelectedImage] = useState(imgLoading)
   const handleRatingChange = (newRating) => {
     setUserRating(newRating);
   };
@@ -115,7 +117,7 @@ function ProductDetails() {
             {product.image.length > 1 && (<div className="product-thumbnails">
               {product.image.map((img, index) => (
                 <img src={img.url} alt={`Thumbnail ${index + 1}`} className="thumbnail-image"
-                  onClick={() => setSelectedImage(img.url)} />
+                  onClick={() => setSelectedImage(img.url)} key={index} />
               ))}
             </div>)}
           </div>
