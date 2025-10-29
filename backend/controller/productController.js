@@ -64,15 +64,42 @@ export const getAllProducts = handleAsyncError(async (req, res, next) => {
 
 //update the product
 export const updateProduct = handleAsyncError(async (req, res, next) => {
+
     let product = await Product.findById(req.params.id)
+
     if (!product) {
         return next(new HandleError("Product Not Found", 404))
     }
+    let images = [];
+    if (typeof req.body.image === 'String') {
+        images.push(req.body.image)
+    }
+    else if (Array.isArray(req.body.image)) {
+        images = req.body.image
+    }
+
+    if (images.length > 0) {
+        for (let i = 0; i < product.image.length; i++) {
+            await cloudinary.uploader.destroy(product.image[i].public_id)
+        }
+        //upload new images
+        const imageLinks = [];
+        for (let i = 0; i < images.length; i++) {
+            const result = await cloudinary.uploader.upload(images[i], {
+                folder: 'products'
+            })
+            imageLinks.push({
+                public_id: result.public_id,
+                url: result.secure_url
+            })
+        }
+        req.body.image = imageLinks
+    }
+
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
     })
-
     res.status(200).json({
         success: true,
         product

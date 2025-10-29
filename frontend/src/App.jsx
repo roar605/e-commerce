@@ -21,6 +21,7 @@ import Payment from "./cart/Payment";
 import Dashboard from "./Admin/Dashboard";
 import ProductsList from "./Admin/ProductsList";
 import CreateProduct from "./Admin/CreateProduct";
+import UpdateProduct from "./Admin/UpdateProduct";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard />} adminOnly={true} />} />
         <Route path="/admin/products" element={<ProtectedRoute element={<ProductsList />} adminOnly={true} />} />
         <Route path="/admin/product/create" element={<ProtectedRoute element={<CreateProduct />} adminOnly={true} />} />
+        <Route path="/admin/product/:updateId" element={<ProtectedRoute element={<UpdateProduct />} adminOnly={true} />} />
 
       </Routes>
       {isAuthenticated && <UserDashboard user={user} />}
