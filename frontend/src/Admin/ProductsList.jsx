@@ -13,8 +13,8 @@ import { toast } from "react-toastify";
 
 
 function productsList() {
-    const { products, loading, error } = useSelector((state) => state.admin);
-    console.log(products);
+    const { products, loading, error, deleting } = useSelector((state) => state.admin);
+    // console.log(products);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchAdminProducts())
@@ -83,8 +83,8 @@ function productsList() {
                                     <td>
                                         <Link to={`/admin/product/${product._id}`} className='action-icon edit-icon'><Edit /></Link>
                                         <button className="action-icon delete-icon"
-                                            onClick={() => handleDelete(product._id)}>
-                                            <Delete />
+                                            disabled={deleting[product._id]} onClick={() => handleDelete(product._id)}>
+                                            {deleting[product._id] ? <Loader /> : <Delete />}
                                         </button>
                                     </td>
                                 </tr>))}

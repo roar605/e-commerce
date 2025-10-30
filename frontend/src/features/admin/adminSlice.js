@@ -5,8 +5,7 @@ import axios from "axios";
 export const fetchAdminProducts = createAsyncThunk('admin/fetchAdminProducts', async (_, { rejectWithValue }) => {
     try {
         const { data } = await axios.get('/api/v1/admin/products')
-        console.log(data);
-
+        // console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -63,7 +62,7 @@ const adminSlice = createSlice({
         loading: false,
         error: null,
         product: {},
-        deleteLoading: false
+        deleting: {}
     },
     reducers: {
         removeErrors: state => {
@@ -119,17 +118,20 @@ const adminSlice = createSlice({
             })
 
         builder
-            .addCase(deleteProduct.pending, (state) => {
-                state.deleteLoading = true,
-                    state.error = null
+            .addCase(deleteProduct.pending, (state, action) => {
+                const productId = action.meta.arg
+                state.deleting[productId] = true
+
             })
             .addCase(deleteProduct.fulfilled, (state, action) => {
+                const productId = action.payload.productId
                 state.deleteLoading = false;
-                state.products = state.products.filter(product => product._id !== action.payload.productId)
+                state.products = state.products.filter(product => product._id !== productId)
             })
             .addCase(deleteProduct.rejected, (state, action) => {
-                state.deleteLoading = false,
-                    state.error = action.payload?.message || 'Product deletion failed'
+                const productId = action.meta.arg
+                state.deleting[productId] = false
+                state.error = action.payload?.message || 'Product deletion failed'
             })
     }
 })
