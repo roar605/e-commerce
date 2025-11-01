@@ -3,7 +3,7 @@ import '../Styles/AdminStyles/UsersList.css'
 import PageTitle from "../components/PageTitle";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Delete, Edit } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearMessage, deleteUser, fetchUsers, removeErrors } from '../features/admin/adminSlice';
@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 
 function UsersList() {
     const { users, loading, error, message } = useSelector(state => state.admin)
+    console.log(users)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {

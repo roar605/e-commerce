@@ -56,7 +56,7 @@ export const deleteProduct = createAsyncThunk('admin/deleteProduct', async (prod
 //fetch all users
 export const fetchUsers = createAsyncThunk('admin/fetchUsers', async (_, { rejectWithValue }) => {
     try {
-        const { data } = await axios.get(`/api/v1/admin/users`)
+        const { data } = await axios.get('/api/v1/admin/users')
         return data;
     } catch (error) {
         return rejectWithValue(error.response?.data || "Failed to fetch users")
@@ -74,7 +74,7 @@ export const getSingleUser = createAsyncThunk('admin/getSingleUser', async (id, 
 })
 
 //update user role
-export const updateUserRole = createAsyncThunk('admin/getSingleUser', async ({ userId, role }, { rejectWithValue }) => {
+export const updateUserRole = createAsyncThunk('admin/updateUserRole', async ({ userId, role }, { rejectWithValue }) => {
     try {
         const { data } = await axios.put(`/api/v1/admin/user/${userId}`, { role })
         return data;

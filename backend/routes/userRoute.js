@@ -1,6 +1,6 @@
 import express from "express";
 import {
-    deleteUser, getSingleUser, getUserDetails, loginUser, logoutUser,
+    deleteUser, getSingleUser, getUserDetails, getUserList, loginUser, logoutUser,
     registerUser, requestPasswordReset,
     resetPassword, updatePassword,
     updateProfile, updateUserRole
@@ -16,7 +16,7 @@ router.route("/reset/:token").post(resetPassword);
 router.route("/profile").get(verifyUserAuth, getUserDetails);
 router.route("/password/update").put(verifyUserAuth, updatePassword);
 router.route("/profile/update").put(verifyUserAuth, updateProfile);
-router.route("/admin/users").get(verifyUserAuth, roleBasedAccess("admin"), getUserDetails);
+router.route("/admin/users").get(verifyUserAuth, roleBasedAccess("admin"), getUserList);
 router.route("/admin/user/:id").get(verifyUserAuth, roleBasedAccess("admin"), getSingleUser)
     .put(verifyUserAuth, roleBasedAccess("admin"), updateUserRole)
     .delete(verifyUserAuth, roleBasedAccess("admin"), deleteUser);
