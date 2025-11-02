@@ -19,7 +19,7 @@ function Payment() {
 
         const { data: orderData } = await axios.post('/api/v1/payment/process', { amount })
         const { order } = orderData
-        console.log(order);
+        console.log(order.id42);
 
         // Open Razorpay Checkout
         const options = {
@@ -40,7 +40,7 @@ function Payment() {
             },
         };
 
-        const rzp = new Razorpay(options);
+        const rzp = new window.Razorpay(options);
         rzp.open();
     }
 
