@@ -12,7 +12,7 @@ function Cart() {
     const tax = subTotal * 0.18
     const shippingCharges = subTotal > 500 ? 0 : 50
     const total = subTotal + tax + shippingCharges
-    console.log(cartItems);
+    // console.log(cartItems);
     const navigate = useNavigate();
     const checkoutHandler = () => {
         navigate(`/login?redirect=/shipping`)

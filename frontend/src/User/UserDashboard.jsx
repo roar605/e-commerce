@@ -43,6 +43,8 @@ function UserDashboard({ user }) {
                 navigate('/login')
             })
             .catch((error) => {
+                console.log(error);
+
                 toast.success(error.message || 'Logout failed', { position: 'top-center', autoClose: 3000 })
 
             })

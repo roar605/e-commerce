@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
 import { connectMongoDatabase } from "./config/db.js";
 import Razorpay from 'razorpay';
+import cors from 'cors'
+
 //initial configurations are done
 dotenv.config()
 const port = process.env.PORT || 3000
@@ -21,6 +23,13 @@ process.on('uncaughtException', (err) => {
     console.log("Server is shutting down due to uhandled rejection");
     process.exit(1)
 })
+
+//cors settings
+const corsOptions = {
+    origin: 'https://localhost:5173'
+}
+app.use(cors(corsOptions))
+
 
 //Razorpay instance
 export const instance = new Razorpay({

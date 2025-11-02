@@ -61,8 +61,8 @@ function OrderConfirm() {
                             </tr>
                         </thead>
                         <tbody>
-                            {cartItems.map((item) => (
-                                <tr>
+                            {cartItems.map((item, index) => (
+                                <tr key={index}>
                                     <td><img className='order-product-image' src={item.image} alt={item.name} /></td>
                                     <td>{item.name}</td>
                                     <td>{item.price}</td>
