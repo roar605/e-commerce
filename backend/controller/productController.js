@@ -33,7 +33,7 @@ export const createProducts = handleAsyncError(async (req, res, next) => {
 
 //getting all the products
 export const getAllProducts = handleAsyncError(async (req, res, next) => {
-    const resultPerPage = 3;
+    const resultPerPage = 6;
     const apiFeatures = new APIFunctionality(Product.find(), req.query).search().filter()
     //calculation before applying pagination
     const filteredQuery = apiFeatures.query.clone();

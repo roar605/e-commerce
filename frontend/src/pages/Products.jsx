@@ -24,7 +24,7 @@ function Products() {
 
   const [currentPage, setCurrentPage] = useState(pageFromURL);
   const navigate = useNavigate();
-  const categories = ["mobile", "laptop", "cosmetics", "shirt", "television"];
+  const categories = ["Season 25-26", "Old Seasons", "Retro", "Sale", "Merchandise"];
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProduct({ keyword, page: currentPage, category }));
