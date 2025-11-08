@@ -22,6 +22,7 @@ function CreateProduct() {
 
     const categories = ["Season 25-26", "Old Seasons", "Retro", "Sale", "Merchandise"]
 
+
     const createProductSubmit = (e) => {
         e.preventDefault();
         const myForm = new FormData();
