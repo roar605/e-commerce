@@ -32,5 +32,3 @@ The app includes **product listings, shopping cart, user authentication, and pay
 - Stripe / Razorpay (for payments)
 
 ---
-
-## 📂 Project Structure
