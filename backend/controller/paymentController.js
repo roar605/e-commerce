@@ -8,6 +8,8 @@ export const processPayment = handleAsyncError(async (req, res) => {
         currency: 'INR'
     }
     const order = await instance.orders.create(options)
+    // console.log("order :", order);
+
     res.status(200).json({
         success: true,
         order
@@ -18,5 +20,13 @@ export const processPayment = handleAsyncError(async (req, res) => {
 export const sendAPIKey = handleAsyncError(async (req, res) => {
     res.status(200).json({
         key: process.env.RAZORPAY_API_KEY
+    })
+})
+
+//payment verification
+export const paymentVerification = handleAsyncError(async (req, res) => {
+    console.log(req.body);
+    res.status(200).json({
+        success: true
     })
 })

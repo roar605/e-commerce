@@ -15,11 +15,11 @@ function Payment() {
     const completePayment = async (amount) => {
         const { data: keyData } = await axios.get('/api/v1/getKey')
         const { key } = keyData
-        console.log(key);
+        // console.log(key);
 
         const { data: orderData } = await axios.post('/api/v1/payment/process', { amount })
         const { order } = orderData
-        console.log(order.id42);
+        // console.log(order);
 
         // Open Razorpay Checkout
         const options = {
@@ -51,7 +51,7 @@ function Payment() {
             <CheckoutPath activePath={2} />
             <div className="payment-container">
                 <Link to='/order/confirm' className='payment-go-back'>Go Back</Link>
-                <button className="payment-btn" onClick={() => completePayment(orderItem.total)}>Pay ({orderItem.total})/-</button>
+                <button className="payment-btn" onClick={() => completePayment(orderItem.total.toFixed(2))}>Pay ({orderItem.total.toFixed(2)})/-</button>
             </div>
             <Footer />
         </>
