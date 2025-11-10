@@ -24,6 +24,7 @@ import CreateProduct from "./Admin/CreateProduct";
 import UpdateProduct from "./Admin/UpdateProduct";
 import UsersList from "./Admin/UsersList";
 import UpdateRole from "./Admin/UpdateRole";
+import PaymentSuccess from "./cart/PaymentSuccess";
 
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
         <Route path="/shipping" element={<ProtectedRoute element={<Shipping />} />} />
         <Route path="/order/confirm" element={<ProtectedRoute element={<OrderConfirm />} />} />
         <Route path="/process/payment" element={<ProtectedRoute element={<Payment />} />} />
+        <Route path="/paymentSuccess" element={<ProtectedRoute element={<PaymentSuccess />} />} />
+
         {/* AdminRoutes */}
         <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard />} adminOnly={true} />} />
         <Route path="/admin/products" element={<ProtectedRoute element={<ProductsList />} adminOnly={true} />} />
