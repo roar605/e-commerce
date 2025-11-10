@@ -6,7 +6,7 @@ import '../Styles/CartStyles/Payment.css';
 import CheckoutPath from './CheckoutPath';
 import axios from 'axios'
 import { useSelector } from 'react-redux';
-import toast from 'react-toastify'
+import { toast } from 'react-toastify'
 import Razorpay from 'razorpay'
 
 function Payment() {
