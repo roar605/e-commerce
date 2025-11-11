@@ -72,39 +72,39 @@ export const updateOrderStatus = handleAsyncError(async (req, res, next) => {
     if (order.orderStatus === 'Delivered') {
         return next(new HandleError("This order is already delivered", 404));
     }
-    await Promise.all(order.orderItems.map(item => updateQuantity(item.product,item.quantity)))
+    await Promise.all(order.orderItems.map(item => updateQuantity(item.product, item.quantity)))
     order.orderStatus = req.body.status
     if (order.orderStatus === 'Delivered') {
         order.deliveredAt = Date.now();
     }
-    await order.save({validateBeforeSave:false})
+    await order.save({ validateBeforeSave: false })
     res.status(200).json({
         success: true,
         order
     })
 
 })
-async function updateQuantity(id,quantity){
-    const product=await Product.findById(id);
-    if(!product){
+async function updateQuantity(id, quantity) {
+    const product = await Product.findById(id);
+    if (!product) {
         return next(new HandleError("Product not found", 404));
     }
-    product.stock-=quantity;
-    await product.save({validateBeforeSave:false})
+    product.stock -= quantity;
+    await product.save({ validateBeforeSave: false })
 }
 
 //delete order
-export const deleteOrder = handleAsyncError(async (req, res, next)=>{
-    const order=await Order.findById(req.params.id);
+export const deleteOrder = handleAsyncError(async (req, res, next) => {
+    const order = await Order.findById(req.params.id);
     if (!order) {
         return next(new HandleError("No order found", 404));
     }
-    if(order.orderStatus!=='Delivered'){
+    if (order.orderStatus !== 'Delivered') {
         return next(new HandleError("Order is not delivered. It cannot be deleted", 404));
     }
-    await Order.deleteOne({_id:req.params.id});
+    await Order.deleteOne({ _id: req.params.id });
     res.status(200).json({
-        success:true,
-        message:"Order deleted successfully"
+        success: true,
+        message: "Order deleted successfully"
     })
 })

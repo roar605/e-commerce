@@ -59,7 +59,7 @@ function App() {
         <Route path="/process/payment" element={<ProtectedRoute element={<Payment />} />} />
         <Route path="/paymentSuccess" element={<ProtectedRoute element={<PaymentSuccess />} />} />
         <Route path="/orders/user" element={<ProtectedRoute element={<MyOrders />} />} />
-        <Route path="/order/:orderID" element={<ProtectedRoute element={<OrderDetails />} />} />
+        <Route path="/order/:orderId" element={<ProtectedRoute element={<OrderDetails />} />} />
 
         {/* AdminRoutes */}
         <Route path="/admin/dashboard" element={<ProtectedRoute element={<Dashboard />} adminOnly={true} />} />

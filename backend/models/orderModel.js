@@ -18,7 +18,7 @@ const orderSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        pincode: {
+        pinCode: {
             type: Number,
             required: true
         },
@@ -54,7 +54,7 @@ const orderSchema = new mongoose.Schema({
     orderStatus: {
         type: String,
         required: true,
-        default:"Processing"
+        default: "Processing"
     },
     user: {
         type: mongoose.Schema.ObjectId,
@@ -95,7 +95,7 @@ const orderSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
-    deleveredAt: Date,
+    deliveredAt: Date,
     createdAt: {
         type: Date,
         default: Date.now()

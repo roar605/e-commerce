@@ -22,6 +22,7 @@ function OrderDetails() {
             dispatch(removeErrors());
         }
     }, [dispatch, error, orderId])
+    console.log(order);
 
     const { shippingInfo = {},
         orderItems = [],
@@ -111,7 +112,7 @@ function OrderDetails() {
                             </tr>
                             {paidAt && (<tr className="table-row">
                                 <th className="table-cell">Paid At</th>
-                                <td className="table-cell">{new Date(paidAt).toLocaleString}</td>
+                                <td className="table-cell">{new Date(paidAt).toLocaleString()}</td>
                             </tr>)}
                             <tr className="table-row">
                                 <th className="table-cell">Item Price</th>
