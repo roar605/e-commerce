@@ -188,11 +188,11 @@ function ProductDetails() {
             )}
             <form className="review-form" onSubmit={handleReviewSubmit} >
               <h3>Write a Review</h3>
-              <Rating
+              {/* <Rating
                 value={0}
                 disabled={false}
                 onRatingChange={handleRatingChange}
-              />
+              /> */}
               <textarea
                 placeholder="Write your review here"
                 className="review-input" value={comment}

@@ -34,7 +34,7 @@ export const getProductDetails = createAsyncThunk('product/getProductDetails', a
 })
 
 //submit review
-export const createReview = createAsyncThunk('product/getProductDetails', async (
+export const createReview = createAsyncThunk('product/createReview', async (
     { rating, comment, productId }, { rejectWithValue }) => {
     try {
         const config = {
