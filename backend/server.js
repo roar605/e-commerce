@@ -26,7 +26,9 @@ process.on('uncaughtException', (err) => {
 
 //cors settings
 const corsOptions = {
-    origin: 'https://localhost:5173'
+    origin: ['https://localhost:5173',
+        'https://e-commerce-supersub.vercel.app/'
+    ]
 }
 app.use(cors(corsOptions))
 
