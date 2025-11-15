@@ -7,7 +7,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target:' https://izetta-unilluminating-margarett.ngrok-free.dev'
+        target:' https://localhost:8000'
       }
     }
   }
