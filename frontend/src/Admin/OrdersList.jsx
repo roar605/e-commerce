@@ -1,49 +1,79 @@
-import React from 'react'
+import React, { useDebugValue, useEffect } from 'react'
 import '../Styles/AdminStyles/OrdersList.css'
 import Footer from "../components/Footer";
+import Loader from "../components/Loader";
 import Navbar from "../components/Navbar";
 import PageTitle from "../components/PageTitle";
 import { Link } from 'react-router-dom';
 import { Delete, Edit } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllOrders, removeErrors } from '../features/admin/adminSlice';
+import { toast } from 'react-toastify';
 
 function OrdersList() {
+    const { orders, loading, error } = useSelector(state => state.admin);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchAllOrders())
+    }, [dispatch])
+
+    //for checking the error
+    useEffect(() => {
+        if (error) {
+            toast.error(error, { position: "top-center", autoClose: 3000 });
+            dispatch(removeErrors());
+        }
+    }, [dispatch, error]);
+
+    if (orders && orders.length === 0) {
+        return (
+            <div className="no-orders-container">
+                <p>No Orders found</p>
+            </div>
+        )
+    }
+
     return (
         <>
-            <PageTitle title="Orders List" />
-            <Navbar />
-            <div className="ordersList-container">
-                <h1 className="ordersList-title">All Orders</h1>
-                <div className="ordersList-table-container">
-                    <table className="ordersList-table">
-                        <thead>
-                            <tr>
-                                <th>Sl no</th>
-                                <th>Order ID</th>
-                                <th>Status</th>
-                                <th>Total Price</th>
-                                <th>Number of items</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>1234</td>
-                                <td>Processing</td>
-                                <td>500/-</td>
-                                <td>3</td>
-                                <td>
-                                    <Link to='/admin/order/:orderId' className='action-icon edit-icon'><Edit /></Link>
-                                    <button className="action-btn delete-icon"><Delete /></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            {loading ? (<Loader />) : (<>
+                <PageTitle title="Orders List" />
+                <Navbar />
+                <div className="ordersList-container">
+                    <h1 className="ordersList-title">All Orders</h1>
+                    <div className="ordersList-table-container">
+                        <table className="ordersList-table">
+                            <thead>
+                                <tr>
+                                    <th>Sl no</th>
+                                    <th>Order ID</th>
+                                    <th>Status</th>
+                                    <th>Total Price</th>
+                                    <th>Number of items</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders && orders.map((order, index) => (
+                                    <tr key={order._id}>
+                                        <td>{index + 1}</td>
+                                        <td>{order._id}</td>
+                                        <td className={`order-status 
+                                            ${order.orderStatus.toLowerCase()}`}>{order.orderStatus}</td>
+                                        <td>{order.totalPrice.toFixed(2)}</td>
+                                        <td>{order.orderItems.length}</td>
+                                        <td>
+                                            <Link to={`/admin/order/${order._id}`} className='action-icon edit-icon'><Edit /></Link>
+                                            <button className="action-btn delete-icon"><Delete /></button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-            <Footer />
-        </>
+                <Footer />
+            </>)}</>
     )
 }
 
