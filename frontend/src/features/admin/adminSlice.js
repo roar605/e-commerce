@@ -18,7 +18,7 @@ export const createProduct = createAsyncThunk('admin/createProduct', async (prod
     try {
         const config = {
             headers: {
-                'Content-type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             }
         }
         const { data } = await axios.post('/api/v1/admin/product/create', productData, config)
@@ -33,7 +33,7 @@ export const updateProduct = createAsyncThunk('admin/updateProduct', async ({ id
     try {
         const config = {
             headers: {
-                'Content-type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             }
         }
         const { data } = await axios.put(`/api/v1/admin/product/${id}`, formData, config)
@@ -97,13 +97,37 @@ export const deleteUser = createAsyncThunk('admin/deleteUser', async (userId, { 
 //fetch all orders
 export const fetchAllOrders = createAsyncThunk('admin/fetchAllOrders', async (_, { rejectWithValue }) => {
     try {
-        const { data } = await axios.delete(`/api/v1/admin/orders`)
+        const { data } = await axios.get(`/api/v1/admin/orders`)
         return data;
     } catch (error) {
-        return rejectWithValue(error.response?.data || "Failed to frtch orders")
+        return rejectWithValue(error.response?.data || "Failed to fetch orders")
     }
 })
 
+//delete order
+export const deleteOrder = createAsyncThunk('admin/deleteOrder', async (id, { rejectWithValue }) => {
+    try {
+        const { data } = await axios.delete(`/api/v1/admin/order/${id}`)
+        return data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Failed to delete order")
+    }
+})
+
+//update order status
+export const updateOrderStatus = createAsyncThunk('admin/updateOrderStatus', async ({ orderId, status }, { rejectWithValue }) => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const { data } = await axios.put(`/api/v1/admin/order/${orderId}`, { status }, config)
+        return data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Failed to update order status")
+    }
+})
 
 const adminSlice = createSlice({
     name: 'admin',
@@ -118,7 +142,8 @@ const adminSlice = createSlice({
         user: {},
         message: null,
         orders: [],
-        totalAmount: 0
+        totalAmount: 0,
+        order: {}
     },
     reducers: {
         removeErrors: state => {
@@ -262,6 +287,36 @@ const adminSlice = createSlice({
             .addCase(fetchAllOrders.rejected, (state, action) => {
                 state.loading = false,
                     state.error = action.payload?.message || "Failed to fetch orders."
+            })
+
+        builder
+            .addCase(deleteOrder.pending, (state) => {
+                state.loading = true,
+                    state.error = null
+            })
+            .addCase(deleteOrder.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = action.payload.success,
+                    state.message = action.payload.message
+            })
+            .addCase(deleteOrder.rejected, (state, action) => {
+                state.loading = false,
+                    state.error = action.payload?.message || "Failed to delete order."
+            })
+
+        builder
+            .addCase(updateOrderStatus.pending, (state) => {
+                state.loading = true,
+                    state.error = null
+            })
+            .addCase(updateOrderStatus.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = action.payload.success,
+                    state.order = action.payload.order
+            })
+            .addCase(updateOrderStatus.rejected, (state, action) => {
+                state.loading = false,
+                    state.error = action.payload?.message || "Failed to update order status."
             })
     }
 })

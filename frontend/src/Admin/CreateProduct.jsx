@@ -20,7 +20,7 @@ function CreateProduct() {
     const [image, setImage] = useState([]);
     const [imagePreview, setImagePreview] = useState([]);
 
-    const categories = ["Season 25-26", "Old Seasons", "Retro", "Sale", "Merchandise"]
+    const categories = ['Season 2025-26', 'Retro', 'Old Seasons', 'National Teams', 'Fan Edition', 'Sale', 'Merchandise']
 
 
     const createProductSubmit = (e) => {

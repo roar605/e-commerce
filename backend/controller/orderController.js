@@ -87,7 +87,8 @@ export const updateOrderStatus = handleAsyncError(async (req, res, next) => {
 async function updateQuantity(id, quantity) {
     const product = await Product.findById(id);
     if (!product) {
-        return next(new HandleError("Product not found", 404));
+        throw new Error('Product not found')
+        // return next(new HandleError("Product not found", 404));
     }
     product.stock -= quantity;
     await product.save({ validateBeforeSave: false })

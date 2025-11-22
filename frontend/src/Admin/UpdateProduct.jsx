@@ -25,7 +25,7 @@ function UpdateProduct() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { updateId } = useParams()
-    const categories = ['Cosmetics', 'Mobile', 'Shirt', 'Jersey', 'Electronics', 'Laptop']
+    const categories = ['Season 2025-26', 'Retro', 'Old Seasons', 'National Teams', 'Fan Edition', 'Sale', 'Merchandise']
 
     useEffect(() => {
         dispatch(getProductDetails(updateId))
