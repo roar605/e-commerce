@@ -22,3 +22,6 @@ temp/*
 
 # Ignore files based on a pattern in the root directory only
 /debug.log
+
+/frontend/dist
+

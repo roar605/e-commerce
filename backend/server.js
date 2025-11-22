@@ -6,7 +6,9 @@ import Razorpay from 'razorpay';
 import cors from 'cors'
 
 //initial configurations are done
-dotenv.config()
+if (process.env.NODE_ENV !== 'PRODUCTION') {
+    dotenv.config()
+}
 const port = process.env.PORT || 3000
 
 connectMongoDatabase();

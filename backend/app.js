@@ -7,6 +7,11 @@ import payment from "./routes/paymentRoutes.js"//as we have done default export 
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import dotenv from 'dotenv'
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const app = express();
 
@@ -22,8 +27,15 @@ app.use("/api/v1/", user)
 app.use("/api/v1/", order)
 app.use("/api/v1/", payment)
 
+// server static files
+app.use(express.static(path.join(__dirname, '../frontend/dist')))
+app.get('/{*any}', (_, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend/dist/index.html'))
+})
+
 app.use(errorHandleMiddleware)
 
-dotenv.config()
-
+if (process.env.NODE_ENV !== 'PRODUCTION') {
+    dotenv.config()
+}
 export default app;
